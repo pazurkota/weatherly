@@ -1,7 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"weatherly/cmd"
+)
 
 func main() {
-	fmt.Println("weatherly")
+	cmd.Execute()
 }
