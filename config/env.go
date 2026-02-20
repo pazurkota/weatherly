@@ -1,14 +1,15 @@
-package api
+package config
 
 import (
-	"fmt"
 	"log"
 	"os"
 
 	"github.com/joho/godotenv"
 )
 
-func getApiKey() string {
+var apiKey string
+
+func setApiKey() {
 	err := godotenv.Load()
 
 	if err != nil {
@@ -16,6 +17,13 @@ func getApiKey() string {
 	}
 
 	key := os.Getenv("API_KEY")
-	fmt.Println(key)
-	return key
+	apiKey = key
+}
+
+func GetApiKey() string {
+	if apiKey == "" {
+		setApiKey()
+	}
+
+	return apiKey
 }

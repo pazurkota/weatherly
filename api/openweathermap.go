@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"weatherly/config"
 )
 
 const apiUrl = "https://api.openweathermap.org/data/2.5/weather?lat=%v&lon=%v&appid=%v"
@@ -15,8 +16,7 @@ func GetWeatherData(latitude float64, longitude float64) (*MainResponse, error) 
 		return nil, errors.New("latitude or longitude is empty or negative")
 	}
 
-	formatedUrl := fmt.Sprintf(apiUrl, latitude, longitude, getApiKey())
-	fmt.Println(formatedUrl)
+	formatedUrl := fmt.Sprintf(apiUrl, latitude, longitude, config.GetApiKey())
 	response, responseError := http.Get(formatedUrl)
 	weatherData := MainResponse{}
 
@@ -55,8 +55,7 @@ func GetWeatherDescription(latitude float64, longitude float64) (*WeatherDescrip
 		return nil, errors.New("latitude or longitude is empty or negative")
 	}
 
-	formatedUrl := fmt.Sprintf(apiUrl, latitude, longitude, getApiKey())
-	fmt.Println(formatedUrl)
+	formatedUrl := fmt.Sprintf(apiUrl, latitude, longitude, config.GetApiKey())
 	response, responseError := http.Get(formatedUrl)
 	weatherData := WeatherDescription{}
 
