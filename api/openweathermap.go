@@ -35,6 +35,14 @@ func GetWeatherData(latitude float64, longitude float64) (*MainResponse, error) 
 		_ = json.Unmarshal(bodyBytes, &result)
 
 		weatherData.Temp = result.Main.Temp
+		weatherData.FeelsLike = result.Main.FeelsLike
+		weatherData.TempMin = result.Main.TempMin
+		weatherData.TempMax = result.Main.TempMax
+		weatherData.Pressure = result.Main.Pressure
+		weatherData.Humidity = result.Main.Humidity
+		weatherData.SeaLevel = result.Main.SeaLevel
+		weatherData.GrndLevel = result.Main.GrndLevel
+
 	} else {
 		return nil, fmt.Errorf("server responded with status: %v", response.StatusCode)
 	}
