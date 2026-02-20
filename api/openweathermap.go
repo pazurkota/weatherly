@@ -10,7 +10,7 @@ import (
 
 const apiUrl = "https://api.openweathermap.org/data/2.5/weather?lat=%v&lon=%v&appid=%v"
 
-func GetWeatherData(latitude float64, longitude float64) (*WeatherData, error) {
+func GetWeatherData(latitude float64, longitude float64) (*MainResponse, error) {
 	if latitude <= 0 || longitude <= 0 {
 		return nil, errors.New("latitude or longitude is empty or negative")
 	}
@@ -18,7 +18,7 @@ func GetWeatherData(latitude float64, longitude float64) (*WeatherData, error) {
 	formatedUrl := fmt.Sprintf(apiUrl, latitude, longitude, getApiKey())
 	fmt.Println(formatedUrl)
 	response, responseError := http.Get(formatedUrl)
-	weatherData := WeatherData{}
+	weatherData := MainResponse{}
 
 	if responseError != nil {
 		return nil, responseError
@@ -31,10 +31,10 @@ func GetWeatherData(latitude float64, longitude float64) (*WeatherData, error) {
 			return nil, bodyBytesError
 		}
 
-		var result WeatherData
+		var result WeatherResponse
 		_ = json.Unmarshal(bodyBytes, &result)
 
-		weatherData.Temp = result.Temp
+		weatherData.Temp = result.Main.Temp
 	} else {
 		return nil, fmt.Errorf("server responded with status: %v", response.StatusCode)
 	}

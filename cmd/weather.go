@@ -19,7 +19,7 @@ var weatherCmd = &cobra.Command{
 		if err != nil {
 			fmt.Println(err)
 		} else {
-			fmt.Println(weather)
+			fmt.Println(weather.Temp)
 		}
 	},
 }
