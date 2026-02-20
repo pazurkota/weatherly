@@ -14,21 +14,18 @@ var weatherCmd = &cobra.Command{
 	Use:   "weather",
 	Short: "Get current weather data",
 	Run: func(cmd *cobra.Command, args []string) {
-		weather, weatherErr := api.GetWeatherData(lat, lon)
-		description, descErr := api.GetWeatherDescription(lat, lon)
+		response, err := api.FetchDataFromApi(lat, lon)
 
-		if weatherErr != nil {
-			fmt.Println("Error fetching weather data:", weatherErr)
+		if err != nil {
+			fmt.Printf("error while fetching data from api: %v\n", err)
 			return
 		}
 
-		if descErr != nil {
-			fmt.Println("Error fetching weather description:", descErr)
-			return
-		}
+		weatherData := api.GetWeatherData(*response)
+		weatherDesc := api.GetWeatherDescription(*response)
 
-		fmt.Println(weather)
-		fmt.Println(description)
+		fmt.Println(weatherData)
+		fmt.Println(weatherDesc)
 	},
 }
 
