@@ -49,3 +49,37 @@ func GetWeatherData(latitude float64, longitude float64) (*MainResponse, error) 
 
 	return &weatherData, nil
 }
+
+func GetWeatherDescription(latitude float64, longitude float64) (*WeatherDescription, error) {
+	if latitude <= 0 || longitude <= 0 {
+		return nil, errors.New("latitude or longitude is empty or negative")
+	}
+
+	formatedUrl := fmt.Sprintf(apiUrl, latitude, longitude, getApiKey())
+	fmt.Println(formatedUrl)
+	response, responseError := http.Get(formatedUrl)
+	weatherData := WeatherDescription{}
+
+	if responseError != nil {
+		return nil, responseError
+	}
+
+	if response.StatusCode == http.StatusOK {
+		bodyBytes, bodyBytesError := io.ReadAll(response.Body)
+
+		if bodyBytesError != nil {
+			return nil, bodyBytesError
+		}
+
+		var result WeatherResponse
+		_ = json.Unmarshal(bodyBytes, &result)
+
+		weatherData.Main = result.Weather[0].Description
+		weatherData.Icon = result.Weather[0].Icon
+
+	} else {
+		return nil, fmt.Errorf("server responded with status: %v", response.StatusCode)
+	}
+
+	return &weatherData, nil
+}
