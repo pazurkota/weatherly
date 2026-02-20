@@ -8,14 +8,16 @@ import (
 	"net/http"
 )
 
-const apiUrl = "https://api.openweathermap.org/data/3.0/onecall?lat=%v&lon=%v&appid=%s"
+const apiUrl = "https://api.openweathermap.org/data/2.5/weather?lat=%v&lon=%v&appid=%v"
 
 func GetWeatherData(latitude float64, longitude float64) (*WeatherData, error) {
 	if latitude <= 0 || longitude <= 0 {
 		return nil, errors.New("latitude or longitude is empty or negative")
 	}
 
-	response, responseError := http.Get(fmt.Sprintf(apiUrl, latitude, longitude, getApiKey()))
+	formatedUrl := fmt.Sprintf(apiUrl, latitude, longitude, getApiKey())
+	fmt.Println(formatedUrl)
+	response, responseError := http.Get(formatedUrl)
 	weatherData := WeatherData{}
 
 	if responseError != nil {

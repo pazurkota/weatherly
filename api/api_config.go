@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"log"
 	"os"
 
@@ -15,5 +16,6 @@ func getApiKey() string {
 	}
 
 	key := os.Getenv("API_KEY")
+	fmt.Println(key)
 	return key
 }
