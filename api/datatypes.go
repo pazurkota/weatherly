@@ -11,6 +11,11 @@ type MainResponse struct {
 	GrndLevel int
 }
 
+type Geolocation struct {
+	Lat float64
+	Lon float64
+}
+
 type WeatherDescription struct {
 	Main string
 	Icon string
